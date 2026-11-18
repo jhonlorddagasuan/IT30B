@@ -1,15 +1,17 @@
 -- #1 students table
 CREATE TABLE IF NOT EXISTS students (
-    --primary key for the studnts table 
+    -- Primary key for the students table
     student_id INT AUTO_INCREMENT PRIMARY KEY,
+    
+    -- Student name
     student_first_name VARCHAR(50) NOT NULL,
     student_last_name VARCHAR(50) NOT NULL,
-
-    --student course
+    
+    -- Student course
     student_course VARCHAR(50) NOT NULL,
-
-    --student created at timestamp
-    student_created_at TIMESTAMP NOT NULL 
+    
+    -- Student created at timestamp
+    student_created_at TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -17,81 +19,83 @@ COLLATE=utf8mb4_general_ci;
 
 -- #2 books table
 CREATE TABLE IF NOT EXISTS books (
-    --Primary key key for the books table
-    book_id INT PRIMARY KEY AUTO_INCREMENT,
+    -- Primary key for the books table
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
 
-    --Book details
+    -- Book details
     book_title VARCHAR(100) NOT NULL,
     book_author VARCHAR(100) NOT NULL,
     book_category VARCHAR(50) NOT NULL,
 
-    --Book created at timestamp
-    book_created_at TIMESTAMP NOT NULL 
+    -- Book created at timestamp
+    book_created_at TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP
-
-)ENGINE =InnoDB
+) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
---#3 Borrow table
+-- #3 borrow table
 CREATE TABLE IF NOT EXISTS borrow (
-    --Primary key for the borrow table 
-    borrow_id INT PRIMARY KEY AUTO_INCREMENT PRIMARY KEY,
+    -- Primary key for the borrow table
+    borrow_id INT AUTO_INCREMENT PRIMARY KEY,
 
-    --Foreign key references
+    -- Foreign keys for the borrow table
     student_id INT NOT NULL,
     book_id INT NOT NULL,
 
-    --Borrow at timestamp not null by default
-    borrow_date TIMESTAMP NOT NULL 
+    -- Borrow timestamp
+    borrow_date TIMESTAMP NOT NULL
         DEFAULT CURRENT_TIMESTAMP,
 
-    --Borrow return timestmap not null by default
-borrow_return_date TIMESTAMP NOT NULL
-    DEFAULT NULL,
+    -- Borrow return timestamp null by default
+    borrow_return_date TIMESTAMP NULL
+        DEFAULT NULL,
 
-    --Borrow tbale contraints and foreign keys
-    CONSTRAINT fk_student_id 
-    FOREIGN KEY (student_id) 
-    REFERENCES students(student_id)
-    ON UPDATE CASCADE
-    ON DELETE RESTRICT,
+    -- Borrow table constraints and foreign keys
+    CONSTRAINT fk_borrow_student
+        FOREIGN KEY (student_id)
+        REFERENCES students(student_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
 
     CONSTRAINT fk_borrow_book
-    FOREIGN KEY (book_id)
-    REFERENCES books(book_id)
-    ON UPDATE CASCADE
-    ON DELETE RESTRICT
-
-)ENGINE =InnoDB
+        FOREIGN KEY (borrow_id)
+        REFERENCES books(book_id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
---Insert statement #1: Isert Student
-INSERT INTO students (
-    student_first_name,
-    student_last_name,
-    student_course,
-)('ITACHI', 'UCHIHA', 'BSIT'),
+-- Insert statement #1: Insert Students
+    INSERT INTO students (
+        student_first_name,
+        student_last_name,
+        student_course
+    ) VALUES 
+     ('ITACHI', 'UCHIHA', 'BSIT'),
 ('GON', 'FREECSS', 'BSIT'),
 ('KILLUA', 'ZOLDYCK', 'BSIT'),
 ('TANJIRO', 'TKAMADO', 'BSIT');
 
-INSERT INTO books (
-    book_title,
-    book_author,
-    book_category
-) VALUES
-   ('The Midnight Library', 'Matt Haig', 'Fantasy'),
+
+-- Insert statement #2: Insert Books
+    INSERT INTO books (
+        book_title,
+        book_author,
+        book_category
+    ) VALUES
+     ('The Midnight Library', 'Matt Haig', 'Fantasy'),
     ('The Alchemist', 'Paulo Coelho', 'Adventure'),
     ('The Silent Patient', 'Alex Michaelides', 'Mystery'),
     ('Atomic Habits', 'James Clear', 'Self-Help'),
     ('The Great Gatsby', 'F. Scott Fitzgerald', 'Classic');
 
+-- Insert statement #3: Insert Borrow
     INSERT INTO borrow (
-    student_id,
-    book_id
-) VALUES
-    (1, 2),
-    (2, 1),
-    (3, 3);
+        student_id,
+        book_id
+    ) VALUES
+    (1,2),
+    (2,1),
+    (3,3);
